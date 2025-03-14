@@ -1,0 +1,22 @@
+services:
+  selenium:
+    image: selenium/standalone-chrome
+    ports:
+      - 4444:4444
+    volumes: 
+      - /dev/shm:/dev/shm
+    
+
+  siteweb:
+    image: andessondev/dockertest:latest
+    ports:
+      - 8000:8000
+
+  test:
+    image: selenium-test
+    build: .
+    depends_on:
+      - selenium 
+      - siteweb
+    volumes:
+      - ./main.py:/app/main.py
